@@ -59,12 +59,33 @@ def draw_box(chunking_methods, scores, metric, output_path):
     df = pd.DataFrame(data, columns=["chunking_method", "question_id", "score"])
 
     # Create the box plot
-    plt.figure(figsize=(12, 40))
+    plt.figure(figsize=(12, 10))
     sns.boxplot(x="chunking_method", y="score", data=df)
     plt.title(f"{metric} of Different Chunking Methods")
     plt.xlabel("Chunking Method")
     plt.ylabel("Score")
-    plt.xticks(rotation=45)
+    plt.xticks(rotation=90)
+    plt.savefig(output_path)
+
+def draw_bar(methods, scores, metric, output_path):
+    plt.figure(figsize=(10, 15))
+    plt.bar(methods, scores, color='skyblue', edgecolor='black')
+
+    plt.title(metric)
+    plt.xlabel("Chunking Method")
+    plt.ylabel("Score")
+
+    # 顯示每個條形的數值
+    for i, value in enumerate(scores):
+        plt.text(i, value + 0.02, str(round(value, 4)), ha='center', va='bottom')
+
+    plt.tight_layout()
+    plt.xticks(rotation=90, fontsize=12)
+
+    ax = plt.gca()
+    ax.set_aspect(aspect=7, adjustable='box')
+
+    # 保存圖表到文件
     plt.savefig(output_path)
 
 def main():

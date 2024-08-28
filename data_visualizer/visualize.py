@@ -1,7 +1,7 @@
 import json
 import os
 import pathlib
-from data_visualizer.draw import draw_radar, draw_box
+from data_visualizer.draw import draw_radar, draw_box, draw_bar
 
 def read_json_to_dict(file_path):
     """Read JSON data from a file and return it as a dictionary."""
@@ -16,6 +16,9 @@ def read_json_to_dict(file_path):
     except json.JSONDecodeError as e:
         print(f"Error decoding JSON from file {file_path}: {e}")
         return None
+
+def split(s):
+    return "\n".join(s.split("|"))
 
 def visualize(json_files, result_dir):
     metrics = ["hit_rate", "map", "mrr", "ndcg", "tnr"]
@@ -46,19 +49,25 @@ def visualize(json_files, result_dir):
         output_dir = pathlib.Path(f"{result_dir}/{filename}/{embedding_model}/k={k_value}&threshold={threshold}/")
         output_dir.mkdir(parents=True, exist_ok=True)
         output_path = output_dir / method
-        draw_radar(metrics, scores, method, output_path)
+        draw_radar(metrics, scores, split(method), output_path)
 
     for metric in metrics:
         scores = []
+        score_averages = []
+
         for method in chunking_methods:
-            scores.append(method_metric_score[method][metric])
+            tmp = method_metric_score[method][metric]
+            scores.append(tmp)
+            score_averages.append(sum(tmp) / len(tmp))
+
         output_dir = pathlib.Path(f"{result_dir}/{filename}/{embedding_model}/k={k_value}&threshold={threshold}/")
         output_dir.mkdir(parents=True, exist_ok=True)
         output_path = output_dir / metric
-        draw_box(chunking_methods, scores, metric, output_path)
+        split_methods = [split(method) for method in chunking_methods]
+        draw_box(split_methods, scores, metric, output_path)
+        output_path = output_dir / f"{metric}_bar"
+        draw_bar(split_methods, score_averages, metric, output_path)
 
-
-        
 
 def main():
     visualize(
