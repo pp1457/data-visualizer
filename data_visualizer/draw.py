@@ -42,7 +42,7 @@ def draw_radar(metrics, scores, chunking_method, output_path):
     ax.scatter(angles, scores, color=scatter_color, s=50)
 
     # Add a title
-    ax.set_title(f"{chunking_method} Radar Graph")
+    ax.set_title(f"{chunking_method} Radar Graph", fontsize=16)
 
 
     plt.savefig(output_path)
@@ -61,7 +61,7 @@ def draw_box(chunking_methods, scores, metric, output_path):
     # Create the box plot
     plt.figure(figsize=(10, 15))
     sns.boxplot(x="chunking_method", y="score", data=df)
-    plt.title(f"{metric} of Different Chunking Methods")
+    plt.title(f"{metric} of Different Chunking Methods", fontsize = 16)
     plt.xlabel("Chunking Method")
     plt.ylabel("Score")
     plt.xticks(rotation=90)
@@ -74,7 +74,7 @@ def draw_bar(methods, scores, metric, output_path):
     plt.figure(figsize=(10, 14))
     plt.bar(methods, scores, color='skyblue', edgecolor='black')
 
-    plt.title(metric)
+    plt.title(metric, fontsize = 16)
     plt.xlabel("Chunking Method")
     plt.ylabel("Score")
 
