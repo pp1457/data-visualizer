@@ -33,7 +33,7 @@ def visualize(json_files, result_dir):
         scores = [ data[metric]/100 for metric in metrics]
 
         filename = os.path.splitext(os.path.basename(data["search_filename"]))[0]
-        method = str(data["search_chunking_method"])
+        method = str(data["search_chunking_method"]).replace("|", "@")
         embedding_model = str(data["search_embedding_model"])
 
         if not method in chunking_methods:
@@ -46,7 +46,7 @@ def visualize(json_files, result_dir):
         for metric in metrics:
             method_metric_score[method][metric] = data[f"{metric}_list"]
 
-        output_dir = pathlib.Path(f"{result_dir}/{filename}/{embedding_model}/k={k_value}&threshold={threshold}/")
+        output_dir = pathlib.Path(f"{result_dir}/{filename}/{embedding_model}/k={k_value}&threshold={threshold}/method")
         output_dir.mkdir(parents=True, exist_ok=True)
         output_path = output_dir / method
         draw_radar(metrics, scores, split(method), output_path)
@@ -60,11 +60,13 @@ def visualize(json_files, result_dir):
             scores.append(tmp)
             score_averages.append(sum(tmp) / len(tmp))
 
-        output_dir = pathlib.Path(f"{result_dir}/{filename}/{embedding_model}/k={k_value}&threshold={threshold}/")
+        output_dir = pathlib.Path(f"{result_dir}/{filename}/{embedding_model}/k={k_value}&threshold={threshold}/metric_box")
         output_dir.mkdir(parents=True, exist_ok=True)
         output_path = output_dir / metric
         split_methods = [split(method) for method in chunking_methods]
         draw_box(split_methods, scores, metric, output_path)
+        output_dir = pathlib.Path(f"{result_dir}/{filename}/{embedding_model}/k={k_value}&threshold={threshold}/metric_bar")
+        output_dir.mkdir(parents=True, exist_ok=True)
         output_path = output_dir / f"{metric}_bar"
         draw_bar(split_methods, score_averages, metric, output_path)
 
