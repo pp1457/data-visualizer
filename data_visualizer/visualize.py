@@ -18,7 +18,7 @@ def read_json_to_dict(file_path):
         return None
 
 def split(s):
-    return "\n".join(s.split("|"))
+    return "\n".join(s.split("@"))
 
 def visualize(json_files, result_dir):
     metrics = ["hit_rate", "map", "mrr", "ndcg", "tnr"]
