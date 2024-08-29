@@ -71,7 +71,7 @@ def draw_box(chunking_methods, scores, metric, output_path):
     plt.savefig(output_path)
 
 def draw_bar(methods, scores, metric, output_path):
-    plt.figure(figsize=(10, 13))
+    plt.figure(figsize=(10, 14))
     plt.bar(methods, scores, color='skyblue', edgecolor='black')
 
     plt.title(metric)
@@ -86,7 +86,7 @@ def draw_bar(methods, scores, metric, output_path):
     plt.xticks(rotation=90, fontsize=12)
 
     ax = plt.gca()
-    ax.set_aspect(aspect=7, adjustable='box')
+    ax.set_aspect(aspect=5, adjustable='box')
 
     # 保存圖表到文件
     plt.savefig(output_path)
