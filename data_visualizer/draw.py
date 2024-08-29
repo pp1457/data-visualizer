@@ -46,6 +46,7 @@ def draw_radar(metrics, scores, chunking_method, output_path):
 
 
     plt.savefig(output_path)
+    plt.close()
     # plt.show()
 
 def draw_box(chunking_methods, scores, metric, output_path):
@@ -69,6 +70,7 @@ def draw_box(chunking_methods, scores, metric, output_path):
     ax = plt.gca()
     ax.set_aspect(aspect=5, adjustable='box')
     plt.savefig(output_path)
+    plt.close()
 
 def draw_bar(methods, scores, metric, output_path):
     plt.figure(figsize=(10, 14))
@@ -90,6 +92,7 @@ def draw_bar(methods, scores, metric, output_path):
 
     # 保存圖表到文件
     plt.savefig(output_path)
+    plt.close()
 
 def main():
     # metrics = ["Hit Rate", "MAP", "MRR", "NDCG", "TNR"]
